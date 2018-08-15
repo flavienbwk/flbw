@@ -41,7 +41,7 @@ int main(int argc, char **argv)
                     rst = flbw.flbw_encrypt(file_contents, password);
                 else
                     rst = flbw.flbw_decrypt(file_contents, password);
-                std::cout << rst << std::endl;
+                // std::cout << rst << std::endl;
 
                 if (argc >= 5)
                 {
