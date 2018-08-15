@@ -40,6 +40,7 @@ You have two ways of using the FLBW algorithm :
 ./flbw 3 mypassword myfile.txt # Encrypt the content of myfile.txt with mypassword, and prints the result
 ./flbw 3 mypassword myfile.txt output.txt # Encrypt the content of myfile.txt with mypassword, and saves the result in output.txt
 ./flbw 4 mypassword output.txt # Decrypt the content of output.txt with mypassword, and prints the result
+./flbw 4 mypassword output.txt myfile.txt # Decrypt the content of output.txt with mypassword, and saves the result in myfile.txt
 ```
 
 :information_source: To test and benchmark FLBW on your machine, you can use the following command to generate a Lorem Ipsum text file : `./text_generator > myfile.txt`, in combination with the `./flbw 4 [...]` command.
