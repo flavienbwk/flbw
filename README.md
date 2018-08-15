@@ -49,18 +49,4 @@ See the following schematics to understand how FLBW roughly work.
 
 ### Encryption mechanism
 
-```mermaid
-graph TD
-CPwd((Clear password)) --> HPwd(Multiple<br/>hashes)
-HPwd --> H2Pwd(ASCII to dec.)
-H2Pwd --> H3Pwd(SHA256)
-
-CStr((Clear string)) --> CWords(Invert string<br/>by dictionnary)
-Darr[Dictionnary gen. <br/>by random key] --> CWords
-
-H3Pwd--> Xor
-CWords --> Xor(XOR encryption)
-
-Xor --> B64Str(Base 64)
-B64Str --> FStr((Encrypted string))
-```
+<img align="center" src="https://i.imgur.com/mUTqn5p.png"/>
