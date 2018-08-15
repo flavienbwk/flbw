@@ -4,10 +4,11 @@ FLBW is a dynamic C++ encryption algorithm allowing you to encrypt a string with
 
 By dynamic, it means able to return a different string each time the same plain string is submitted.
 
-Actual version : __0.1__
-We use [CryptoPP](https://github.com/weidai11/cryptopp) for the hash algorithms.
+Actual version : _(cpp)_ __0.1__
 
-You can play a [demo here via a web interface](http://flavien.berwick.fr/projects/flbw) (PHP version of the algorithm).
+-----
+You can play a [demo here via a web interface](http://flavien.berwick.fr/projects/flbw) (PHP version of the algorithm).  
+We use [CryptoPP](https://github.com/weidai11/cryptopp) for the hash algorithms.
 
 ## Installation
 
@@ -49,4 +50,6 @@ See the following schematics to understand how FLBW roughly work.
 
 ### Encryption mechanism
 
-<img align="center" src="https://i.imgur.com/mUTqn5p.png"/>
+<p align="center">
+    <img src="https://i.imgur.com/mUTqn5p.png"/>
+</p>
