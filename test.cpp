@@ -112,5 +112,5 @@ int main(int argc, char **argv)
     printf("Encryption time: %f seconds (avg. of %d cps). \n", bchm_avg_enc, (int)((double)bchm_sum_chars / bchm_avg_enc));
     printf("Decryption time: %f seconds (avg. of %d cps). \n", bchm_avg_dec, (int)((double)bchm_sum_chars / bchm_avg_dec));
     printf("Total of %d chars in %f seconds (avg. of %d cps for enc. and dec. sequences).\n", bchm_sum_chars, time_total, (int)((double)bchm_sum_chars/time_total));
-    printf("%d OK, %d KO (%.3f %% fail).\n", integrity_ok, integrity_ko, ((double)integrity_ko / (double)integrity_ok));
+    printf("%d OK, %d KO (%.3f %% fail).\n", integrity_ok, integrity_ko, ((double)(integrity_ko * 100) / (double)integrity_ok));
 }
