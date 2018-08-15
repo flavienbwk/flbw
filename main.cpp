@@ -41,8 +41,6 @@ int main(int argc, char **argv)
                     rst = flbw.flbw_encrypt(file_contents, password);
                 else
                     rst = flbw.flbw_decrypt(file_contents, password);
-                // std::cout << rst << std::endl;
-
                 if (argc >= 5)
                 {
                     FILE *fp = fopen(argv[4], "w");
@@ -64,6 +62,8 @@ int main(int argc, char **argv)
                         file.close();
                     }
                 }
+                else
+                    std::cout << rst << std::endl;
                 if (flbw.get_error())
                     std::cout << flbw.get_message() << std::endl;
                 // std::cout << "\nIn: " << std::to_string(flbw.get_execution_time()) << " seconds." << std::endl;
