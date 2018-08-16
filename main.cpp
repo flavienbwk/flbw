@@ -41,7 +41,7 @@ int main(int argc, char **argv)
                     rst = flbw.flbw_encrypt(file_contents, password);
                 else
                     rst = flbw.flbw_decrypt(file_contents, password);
-                if (argc >= 5)
+                if (argc >= 5 && rst.length())
                 {
                     FILE *fp = fopen(argv[4], "w");
                     if (fp == NULL)

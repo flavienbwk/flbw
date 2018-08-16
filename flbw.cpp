@@ -8,7 +8,7 @@ FLBW::FLBW(void)
     reset();
     _base_array = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ;";
     _base_size = _base_array.length();
-    _version = "0.1";
+    _version = "0.2";
 }
 
 /*
@@ -19,9 +19,11 @@ std::vector<std::string> FLBW::explode(char delim, std::string const &s)
 {
     std::vector<std::string> result;
     std::istringstream iss(s);
+    std::size_t found = s.find(delim);
 
-    for (std::string token; std::getline(iss, token, delim);)
-        result.push_back(std::move(token));
+    if (found != std::string::npos)
+        for (std::string token; std::getline(iss, token, delim);)
+            result.push_back(std::move(token));
     return (result);
 }
 
@@ -134,6 +136,7 @@ std::string FLBW::set_error_message(std::string message)
 {
     _error = 1;
     _message = std::string(C_RED) + message + std::string(C_RESET);
+    return (_message);
 }
 
 std::string FLBW::get_message()
@@ -233,7 +236,7 @@ std::string FLBW::crypt_word_inv(std::string str, std::string key_arr, int key)
     if (key_arr.length() != _base_size)
     {
         set_error_message("Array error in crypt_word_inv. Please report this bug.");
-        exit;
+        return (rst);
     }
 
     for (int i = 0, l = str.length(); i < l; i++)
@@ -310,7 +313,6 @@ std::string FLBW::flbw_encrypt(std::string data, std::string password)
     else
         set_error_message("Can't cipher empty data.");
     _time_end = clock();
-    //std::cout << "time>" << std::to_string((float)_time_end) << std::endl;
     return (rst);
 }
 
