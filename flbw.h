@@ -1,8 +1,6 @@
 #ifndef _FLBW_H_
 #define _FLBW_H_
 
-#define byte uint8_t
-
 #define C_RED "\x1B[31m"
 #define C_GRN "\x1B[32m"
 #define C_YEL "\x1B[33m"
@@ -13,7 +11,6 @@
 #define C_RESET "\x1B[0m"
 
 #include "lib/base64/base64.h"
-#include "libmy/inc/my.h"
 #include "lib/cryptopp/cryptlib.h"
 #include "lib/cryptopp/sha.h"
 #include "lib/cryptopp/hex.h"
@@ -28,8 +25,6 @@
 #include <stdio.h>
 #include <random>
 #include <vector>
-
-typedef unsigned char BYTE;
 
 typedef struct s_de_de_de
 {
@@ -62,8 +57,8 @@ private:
   t_de_de_de ascii_to_10(std::string str);
   std::string generate_array(int key);
   std::string crypt_word(std::string mot, std::string key_arr);
-  std::vector<BYTE> xor_encrypt(std::string str, std::string key);
-  std::string xor_decrypt(std::vector<BYTE> str, std::string key);
+  std::vector<unsigned char> xor_encrypt(std::string str, std::string key);
+  std::string xor_decrypt(std::vector<unsigned char> str, std::string key);
   std::string crypt_word_inv(std::string str, std::string key_arr, int key);
   std::string set_error_message(std::string message);
   void reset(void);
