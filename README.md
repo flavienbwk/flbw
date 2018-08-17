@@ -1,14 +1,10 @@
 # What is FLBW ?
 
-FLBW is a dynamic C++ encryption algorithm allowing you to encrypt a string with or without a password.
+FLBW is a dynamic and lightweight C++ encryption algorithm allowing you to encrypt a string with or without a password.
 
 By dynamic, it means able to return a different string each time the same plain string is submitted.
 
-Actual version : _(cpp)_ __0.3__
-
------
-You can play a [demo here via a web interface](http://flavien.berwick.fr/projects/flbw) (PHP version of the algorithm).  
-We use [CryptoPP](https://github.com/weidai11/cryptopp) for the hash algorithms.
+Actual version : _(cpp)_ __0.4__
 
 ## Installation
 

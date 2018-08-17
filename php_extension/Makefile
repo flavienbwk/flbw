@@ -22,15 +22,17 @@ CP					=	cp -Rf
 MKDIR				=	mkdir -p
 LN 					=	ln -s
 
-CRYPTOPP_7_SO		= 	./flbw_lib/lib/cryptopp/libcryptopp.so.7.0.0
+SHA1_SO				= 	./flbw_lib/lib/sha1/flbw_sha1.so
+SHA256_SO			= 	./flbw_lib/lib/sha256/flbw_sha256.so
+SHA512_SO			= 	./flbw_lib/lib/sha512/flbw_sha512.so
 FLBW_SO				= 	./flbw_lib/flbw.so
 BASE64_SO			= 	./flbw_lib/lib/base64/flbw_base64.so
-LIBMY_SO			= 	./flbw_lib/lib/libmy/flbw_libmy.so
 
-LN_CRYPTOPP_7_SO	= 	${DIR_EXT}/libcryptopp.so.7
+LN_SHA1_SO			= 	${DIR_EXT}/flbw_sha1.so
+LN_SHA256_SO		= 	${DIR_EXT}/flbw_sha256.so
+LN_SHA512_SO		= 	${DIR_EXT}/flbw_sha512.so
 LN_FLBW_SO			= 	${DIR_EXT}/flbw.so
 LN_BASE64_SO		= 	${DIR_EXT}/flbw_base64.so
-LN_LIBMY_SO			= 	${DIR_EXT}/flbw_libmy.so
 
 SOURCES				=	$(wildcard *.cpp)
 OBJECTS				=	$(SOURCES:%.cpp=%.o)
@@ -42,12 +44,13 @@ make_libs:
 						make -C ./flbw_lib all
 
 ${EXTENSION}:			${OBJECTS}
-						mkdir -p ${DIR_EXT}
+						${MKDIR} ${DIR_EXT}
 						${CP} ${FLBW_SO} ${LN_FLBW_SO}
-						${CP} ${CRYPTOPP_7_SO} ${LN_CRYPTOPP_7_SO}
+						${CP} ${SHA1_SO} ${LN_SHA1_SO}
+						${CP} ${SHA256_SO} ${LN_SHA256_SO}
+						${CP} ${SHA512_SO} ${LN_SHA512_SO}
 						${CP} ${BASE64_SO} ${LN_BASE64_SO}
-						${CP} ${LIBMY_SO} ${LN_LIBMY_SO}
-						${LINKER} ${LINKER_FLAGS} -o $@ ${OBJECTS} ${LINKER_DEPENDENCIES} ${LN_CRYPTOPP_7_SO} ${LN_BASE64_SO} ${LN_FLBW_SO} ${LN_LIBMY_SO}
+						${LINKER} ${LINKER_FLAGS} -o $@ ${OBJECTS} ${LINKER_DEPENDENCIES} ${LN_SHA1_SO} ${LN_SHA256_SO} ${LN_SHA512_SO} ${LN_BASE64_SO} ${LN_FLBW_SO}
 						${CP} ${EXTENSION} ${DIR_EXT}
 
 ${OBJECTS}:

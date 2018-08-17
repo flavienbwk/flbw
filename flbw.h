@@ -11,11 +11,11 @@
 #define C_RESET "\x1B[0m"
 
 #include "lib/base64/base64.h"
-#include "lib/cryptopp/cryptlib.h"
-#include "lib/cryptopp/sha.h"
-#include "lib/cryptopp/hex.h"
-#include "lib/libmy/inc/my.h"
+#include "lib/sha512/sha512.h"
+#include "lib/sha256/sha256.h"
+#include "lib/sha1/sha1.h"
 #include <sys/time.h>
+#include <algorithm>
 #include <string.h>
 #include <iostream>
 #include <iomanip>
@@ -36,9 +36,6 @@ typedef struct s_de_de_de
 class FLBW
 {
 private:
-  CryptoPP::SHA1 _sha1;
-  CryptoPP::SHA256 _sha256;
-  CryptoPP::SHA512 _sha512;
   std::string _base_array;
   std::string _result_hash;
   std::string _message;

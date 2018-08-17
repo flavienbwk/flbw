@@ -2,13 +2,10 @@
 
 FLBW::FLBW(void)
 {
-    CryptoPP::SHA1 _sha1;
-    CryptoPP::SHA256 _sha256;
-    CryptoPP::SHA512 _sha512;
     reset();
     _base_array = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ;";
     _base_size = _base_array.length();
-    _version = "0.3";
+    _version = "0.4";
 }
 
 /*
@@ -69,32 +66,42 @@ std::string FLBW::str_rot(std::string str, int number)
 
 std::string FLBW::fn_sha1(std::string str)
 {
-    std::string hash = "";
+    SHA1 checksum;
 
-    CryptoPP::StringSource(str, true, new CryptoPP::HashFilter(_sha1, new CryptoPP::HexEncoder(new CryptoPP::StringSink(hash))));
-    hash = std::string(my_strtolower(const_cast<char *>(hash.c_str())));
-    hash = hash.substr(0, 40);
-    return (hash);
+    checksum.update(str);
+    return (checksum.final());
 }
 
 std::string FLBW::fn_sha256(std::string str)
 {
-    std::string hash = "";
+    unsigned char digest[SHA256::DIGEST_SIZE];
+    memset(digest, 0, SHA256::DIGEST_SIZE);
+    SHA256 ctx = SHA256();
+    ctx.init();
+    ctx.update((unsigned char *)str.c_str(), str.length());
+    ctx.final(digest);
 
-    CryptoPP::StringSource(str, true, new CryptoPP::HashFilter(_sha256, new CryptoPP::HexEncoder(new CryptoPP::StringSink(hash))));
-    hash = std::string(my_strtolower(const_cast<char *>(hash.c_str())));
-    hash = hash.substr(0, 64);
-    return (hash);
+    char buf[2 * SHA256::DIGEST_SIZE + 1];
+    buf[2 * SHA256::DIGEST_SIZE] = 0;
+    for (int i = 0; i < SHA256::DIGEST_SIZE; i++)
+        sprintf(buf + i * 2, "%02x", digest[i]);
+    return (std::string(buf));
 }
 
 std::string FLBW::fn_sha512(std::string str)
 {
-    std::string hash = "";
+    unsigned char digest[SHA512::DIGEST_SIZE];
+    memset(digest, 0, SHA512::DIGEST_SIZE);
+    SHA512 ctx = SHA512();
+    ctx.init();
+    ctx.update((unsigned char *)str.c_str(), str.length());
+    ctx.final(digest);
 
-    CryptoPP::StringSource(str, true, new CryptoPP::HashFilter(_sha512, new CryptoPP::HexEncoder(new CryptoPP::StringSink(hash))));
-    hash = std::string(my_strtolower(const_cast<char *>(hash.c_str())));
-    hash = hash.substr(0, 128);
-    return (hash);
+    char buf[2 * SHA512::DIGEST_SIZE + 1];
+    buf[2 * SHA512::DIGEST_SIZE] = 0;
+    for (int i = 0; i < SHA512::DIGEST_SIZE; i++)
+        sprintf(buf + i * 2, "%02x", digest[i]);
+    return (std::string(buf));
 }
 
 int FLBW::rand_vals(int min, int max)
@@ -192,7 +199,7 @@ std::string FLBW::crypt_word(std::string str, std::string key_arr)
     if (key_arr.length() != _base_size)
     {
         set_error_message("Array error in crypt_word. Please report this bug.");
-        return (me);
+        exit;
     }
     for (int i = 0, l = str.length(); i < l; i++)
     {
@@ -305,7 +312,6 @@ std::string FLBW::flbw_encrypt(std::string data, std::string password)
             }
         step = step.substr(0, step.size() - 1);
         std::string needle = std::to_string(key) + ";" + step;
-
         rst_b = xor_encrypt(needle, password);
         unsigned char *rst_b_c = (unsigned char *)malloc(sizeof(rst_b) * rst_b.size());
         for (int i = 0; i < rst_b.size(); i++)
