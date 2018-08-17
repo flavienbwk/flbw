@@ -8,7 +8,7 @@ FLBW::FLBW(void)
     reset();
     _base_array = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ;";
     _base_size = _base_array.length();
-    _version = "0.2";
+    _version = "0.3";
 }
 
 /*
@@ -24,6 +24,8 @@ std::vector<std::string> FLBW::explode(char delim, std::string const &s)
     if (found != std::string::npos)
         for (std::string token; std::getline(iss, token, delim);)
             result.push_back(std::move(token));
+    else
+        result.push_back(s);
     return (result);
 }
 

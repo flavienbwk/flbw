@@ -22,10 +22,11 @@ std::string randomString(int max_length)
 
 int main(int argc, char **argv)
 {
+    srand(time(NULL));
     clock_t time_start, time_end;
-    int nb_strings_generated = 1000;
+    int nb_strings_generated = 500;
     int strings_max_length = 32768;
-    int passwords_max_length = 4096;
+    int passwords_max_length = 8192;
 
     FLBW flbw;
     int random, integrity_ok, integrity_ko;
@@ -53,7 +54,6 @@ int main(int argc, char **argv)
 
     for (int i = 0; i < strings.size(); i++)
     {
-        srand(time(NULL));
         FLBW flbw_enc;
         FLBW flbw_dec;
 
@@ -111,6 +111,6 @@ int main(int argc, char **argv)
     printf("Generated %d strings and passwords.\n", (int)strings.size());
     printf("Encryption time: %f seconds (avg. of %d cps). \n", bchm_avg_enc, (int)((double)bchm_sum_chars / bchm_avg_enc));
     printf("Decryption time: %f seconds (avg. of %d cps). \n", bchm_avg_dec, (int)((double)bchm_sum_chars / bchm_avg_dec));
-    printf("Total of %d chars in %f seconds (avg. of %d cps for enc. and dec. sequences).\n", bchm_sum_chars, time_total, (int)((double)bchm_sum_chars/time_total));
+    printf("Total of %d chars in %f seconds (avg. of %d cps for enc. and dec. sequences).\n", bchm_sum_chars, time_total, (int)((double)bchm_sum_chars / time_total));
     printf("%d OK, %d KO (%.3f %% fail).\n", integrity_ok, integrity_ko, ((double)(integrity_ko * 100) / (double)integrity_ok));
 }
