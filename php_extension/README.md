@@ -8,7 +8,8 @@ Actual version : _(cpp)_ __0.3__
 :warning: PHP **7.0** or greater is required.
 
 -----
-We use [CryptoPP](https://github.com/weidai11/cryptopp) for the hash algorithms.  
+We use [CryptoPP](https://github.com/weidai11/cryptopp) for the hash algorithms.
+
 We use the great [PHP-CPP](https://www.php-cpp.com) to generate the PHP extension from the C++ code.
 
 # Installation
