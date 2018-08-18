@@ -15,13 +15,6 @@ make
 ./flbw # ... (see usage below)
 ```
 
-Tests & benchmark install :
-
-```bash
-make test
-./flbw_test
-```
-
 ## Usage
 
 You have two ways of using the FLBW algorithm :
@@ -40,6 +33,21 @@ You have two ways of using the FLBW algorithm :
 ```
 
 :information_source: To test and benchmark FLBW on your machine, you can use the following command to generate a Lorem Ipsum text file : `./text_generator > myfile.txt`, in combination with the `./flbw 4 [...]` command.
+
+## Tests
+
+
+Test of integrity & benchmark (TIB) :
+```bash
+make tib 
+./tib
+```
+
+Test of random attack (RA) install :
+```bash
+make tra
+./tra
+```
 
 ## Functioning
 
