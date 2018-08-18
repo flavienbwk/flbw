@@ -4,7 +4,7 @@ FLBW is a dynamic and lightweight C++ encryption algorithm allowing you to encry
 
 The PHP extension allows to benefit the speed of C/C++ with the latitud of PHP.
 
-Actual version : _(cpp)_ __0.4__  
+Actual version : _(cpp)_ __0.5__  
 :warning: PHP **7.0** or greater is required.
 
 -----
