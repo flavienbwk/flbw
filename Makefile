@@ -22,6 +22,7 @@ SRC				=   ./flbw.cpp
 OBJ				=   $(SRC:%.cpp=%.o)
 
 RM				=   -rm -f
+CP				=	cp -Rf
 
 CPPFLAGS 		=  -std=c++11
 
@@ -46,6 +47,13 @@ make_libs:
 					make -C $(LIB_SHA256) all
 					make -C $(LIB_SHA512) all
 					make -C $(LIB_BASE64) all
+
+# Make the "flbw" command globally available.
+install:			all
+					${CP} ${NAME_PRGM} /bin
+
+uninstall:			
+					${RM} /bin/${NAME_PRGM}
 
 clean:	
 					$(RM) $(OBJ)

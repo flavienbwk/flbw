@@ -4,12 +4,19 @@ FLBW is a dynamic and lightweight C++ encryption algorithm allowing you to encry
 
 By dynamic, it means able to return a different string each time the same plain string is submitted.
 
-Actual version : _(cpp)_ __0.4__
+Actual version : _(cpp)_ __0.5__
 
 ## Installation
 
-Classic install :
+Classic install for permanent usage :
+```bash
+sudo make install
+flbw # ... (see usage below)
+```
 
+:information_source: You can uninstall with `sudo make uninstall`.
+
+Classic install for temporary usage :
 ```bash
 make
 ./flbw # ... (see usage below)
@@ -23,13 +30,15 @@ You have two ways of using the FLBW algorithm :
 
 
 ```bash
-./flbw 1 mypassword mystring # Encrypt mystring with mypassword, and prints the result
-./flbw 2 mypassword VGhhdCdzIGp1c3QgYSBkZW1v # Decrypt a string with mypassword, and prints the result
+> For encryption :
+flbw enc password string
+flbw encf password file.txt [encrypted_destination.txt] # Last parameter is optional, the result will be printed if not specified.
+flbw encbyf passwordfile.txt file.txt [encrypted_destination.txt] # Last parameter is optional, the result will be printed if not specified.
 
-./flbw 3 mypassword myfile.txt # Encrypt the content of myfile.txt with mypassword, and prints the result
-./flbw 3 mypassword myfile.txt output.txt # Encrypt the content of myfile.txt with mypassword, and saves the result in output.txt
-./flbw 4 mypassword output.txt # Decrypt the content of output.txt with mypassword, and prints the result
-./flbw 4 mypassword output.txt myfile.txt # Decrypt the content of output.txt with mypassword, and saves the result in myfile.txt
+> For decryption :
+flbw dec password encryptedstring
+flbw decf password encryptedfile.txt [decrypted_destination.txt] # Last parameter is optional, the result will be printed if not specified.
+flbw decbyf passwordfile.txt encryptedfile.txt [decrypted_destination.txt] # Last parameter is optional, the result will be printed if not specified.
 ```
 
 :information_source: To test and benchmark FLBW on your machine, you can use the following command to generate a Lorem Ipsum text file : `./text_generator > myfile.txt`, in combination with the `./flbw 4 [...]` command.

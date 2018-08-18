@@ -5,7 +5,7 @@ FLBW::FLBW(void)
     reset();
     _base_array = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ;";
     _base_size = _base_array.length();
-    _version = "0.4";
+    _version = "0.5";
 }
 
 /*
