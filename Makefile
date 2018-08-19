@@ -3,11 +3,13 @@ CC				=   g++
 MAIN_PRGM		=   main.cpp
 T_IB_PRGM		=	tests/integrity_benchmark.cpp
 T_RA_PRGM		=	tests/random_attack.cpp
+T_FI_PRGM		=	tests/files_integrity/files_integrity.cpp
 BNCH_PRGM		=   benchmark.cpp
 
 NAME_PRGM		=   flbw
 NAME_T_IB_PRGM	=   tib
 NAME_T_RA_PRGM	=   tra
+NAME_T_FI_PRGM	=   tfi
 
 LIB_PROGRAM		=   flbw.a
 LIB_SHA1		=	lib/sha1
@@ -35,7 +37,15 @@ tib:				make_libs $(LIB_PROGRAM)
 tra:				make_libs $(LIB_PROGRAM)
 					$(CC) $(CPPFLAGS) -o $(NAME_T_RA_PRGM) $(T_RA_PRGM) $(LIBS)
 
-test:				tib tra
+tfi:				make_libs $(LIB_PROGRAM)
+					base64 /dev/urandom | head -c 1000000 > tests/files_integrity/files/test1.txt
+					base64 /dev/urandom | head -c 5000000 > tests/files_integrity/files/test2.txt
+					base64 /dev/urandom | head -c 10000000 > tests/files_integrity/files/test3.txt
+					base64 /dev/urandom | head -c 25000000 > tests/files_integrity/files/test4.txt
+					base64 /dev/urandom | head -c 50000000 > tests/files_integrity/files/test5.txt
+					$(CC) $(CPPFLAGS) -o $(NAME_T_FI_PRGM) $(T_FI_PRGM) $(LIBS)
+
+test:				tib tra tfi
 
 $(LIB_PROGRAM):		$(OBJ)
 					ar rc $(LIB_PROGRAM) $(OBJ)
@@ -60,11 +70,13 @@ clean:
 					$(RM) $(NAME_PRGM)
 					$(RM) $(NAME_T_IB_PRGM)
 					$(RM) $(NAME_T_RA_PRGM)
+					$(RM) $(NAME_T_FI_PRGM)
 					$(RM) $(LIB_PROGRAM)
 					$(RM) main.o
 	
 fclean:				clean
 					$(RM) $(LIB_PROGRAM)
+					$(RM) ./tests/files_integrity/files/*
 					make -C $(LIB_SHA1) fclean
 					make -C $(LIB_SHA256) fclean
 					make -C $(LIB_SHA512) fclean

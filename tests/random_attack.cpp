@@ -1,5 +1,5 @@
 /*
- * FLBW encryption algorithm. Random Attack Program :
+ * FLBW encryption algorithm. Random Attack Test Program :
  * 
  * For a sequence of 50 randomly generated strings (between 1 & 16384 characters), generating and checking decryption for 500 test passwords (between 1 & 4096 characters).
  * 
