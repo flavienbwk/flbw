@@ -2,7 +2,7 @@
  * FLBW encryption algorithm. Files Integrity Test Program :
  * 
  * This program retrieves the content of all the files in ./files.
- * 
+ * The hash of the content will be compared to the FLBW decrypted string of the FLBW encrypted file content.
  * 
  * Passwords are randomly generated (1 to 4096 characters) for each file found.
  * 

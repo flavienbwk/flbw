@@ -52,10 +52,16 @@ make tib
 ./tib
 ```
 
-Test of random attack (RA) install :
+Test of random attack (RA) :
 ```bash
 make tra
 ./tra
+```
+
+Test of files integrity (FI) :
+```bash
+make tfi
+./tfi
 ```
 
 ## Functioning
