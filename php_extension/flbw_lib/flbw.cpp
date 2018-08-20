@@ -5,7 +5,9 @@ FLBW::FLBW(void)
     reset();
     _base_array = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ;";
     _base_size = _base_array.length();
-    _version = "0.5";
+    _version = "0.6";
+    _bruteforce_protection = false;  // Will increase computing time both for enc. and dec.
+    _bruteforce_difficulty = 234567; // Put your custom number here to secure your encryption.
 }
 
 /*
@@ -77,10 +79,10 @@ std::string FLBW::fn_sha256(std::string str)
     unsigned char digest[SHA256::DIGEST_SIZE];
     memset(digest, 0, SHA256::DIGEST_SIZE);
     SHA256 ctx = SHA256();
+
     ctx.init();
     ctx.update((unsigned char *)str.c_str(), str.length());
     ctx.final(digest);
-
     char buf[2 * SHA256::DIGEST_SIZE + 1];
     buf[2 * SHA256::DIGEST_SIZE] = 0;
     for (int i = 0; i < SHA256::DIGEST_SIZE; i++)
@@ -131,6 +133,16 @@ void FLBW::reset(void)
     _message = "";
 }
 
+bool FLBW::get_bruteforce_protection()
+{
+    return (_bruteforce_protection);
+}
+
+int FLBW::get_bruteforce_difficulty()
+{
+    return (_bruteforce_difficulty);
+}
+
 std::string FLBW::get_version()
 {
     return (_version);
@@ -141,6 +153,31 @@ int FLBW::get_error()
     return (_error);
 }
 
+std::string FLBW::get_message()
+{
+    return (_message);
+}
+
+float FLBW::get_execution_time()
+{
+    return (((float)_time_end - (float)_time_start) / CLOCKS_PER_SEC);
+}
+
+std::string FLBW::get_result_hash()
+{
+    return (_result_hash);
+}
+
+void FLBW::set_bruteforce_protection(bool activated)
+{
+    _bruteforce_protection = activated;
+}
+
+void FLBW::set_bruteforce_difficulty(int value)
+{
+    _bruteforce_difficulty = value;
+}
+
 std::string FLBW::set_error_message(std::string message)
 {
     _error = 1;
@@ -148,16 +185,20 @@ std::string FLBW::set_error_message(std::string message)
     return (_message);
 }
 
-std::string FLBW::get_message()
-{
-    return (_message);
-}
-
 std::string FLBW::flbw_hash(std::string password)
 {
     std::string step = fn_sha512(str_rot("flbw" + password, 5));
     step = str_rot(step, 42);
-    return fn_sha512(step + '%');
+    return (fn_sha512(step + '%'));
+}
+
+std::string FLBW::flbw_hash_challenge(std::string password)
+{
+    std::string n_password = password;
+
+    for (int i = 0; i < _bruteforce_difficulty; i++)
+        n_password = fn_sha512(n_password);
+    return (n_password);
 }
 
 t_de_de_de FLBW::ascii_to_10(std::string str)
@@ -228,9 +269,7 @@ std::string FLBW::xor_decrypt(std::vector<unsigned char> str, std::string key)
     std::string rst;
 
     for (int i = 0; i != str.size(); i++)
-    {
         rst += str[i] ^ key[i % key.length()];
-    }
     return (rst);
 }
 
@@ -275,34 +314,28 @@ std::string FLBW::crypt_word_inv(std::string str, std::string key_arr, int key)
     return (rst);
 }
 
-float FLBW::get_execution_time(void)
-{
-    return (((float)_time_end - (float)_time_start) / CLOCKS_PER_SEC);
-}
-
-std::string FLBW::get_result_hash(void)
-{
-    return (_result_hash);
-}
-
 std::string FLBW::flbw_encrypt(std::string data, std::string password)
 {
     reset();
     Base64 base64;
     int key = rand_vals(1, 61);
     int stm = 0;
+    int i;
     std::vector<unsigned char> rst_b;
+    unsigned char *rst_b_c;
     std::string rst = "";
     std::string step = "";
+    std::string needle;
 
     if (data.length())
     {
+        password = (_bruteforce_protection) ? flbw_hash_challenge(password) : password;
         password = flbw_hash(password);
         t_de_de_de atod = ascii_to_10(password);
         std::string aotd_pass = fn_sha256(std::to_string(atod.i_t));
         std::string key_a = generate_array(key);
         std::vector<std::string> sst = explode(' ', data);
-        for (int i = 0; i < sst.size(); i++)
+        for (i = 0; i < sst.size(); i++)
             if (stm != 0 || stm != sst.size())
                 step += crypt_word(sst[i] + " ", key_a);
             else
@@ -310,11 +343,10 @@ std::string FLBW::flbw_encrypt(std::string data, std::string password)
                 step = crypt_word(sst[i], key_a);
                 stm++;
             }
-        step = step.substr(0, step.size() - 1);
-        std::string needle = std::to_string(key) + ";" + step;
+        needle = std::to_string(key) + ";" + step;
         rst_b = xor_encrypt(needle, password);
-        unsigned char *rst_b_c = (unsigned char *)malloc(sizeof(rst_b) * rst_b.size());
-        for (int i = 0; i < rst_b.size(); i++)
+        rst_b_c = (unsigned char *)malloc(sizeof(rst_b) * rst_b.size());
+        for (i = 0; i < rst_b.size(); i++)
             rst_b_c[i] = (unsigned char)rst_b[i];
         rst = base64.base64_encode(rst_b_c, rst_b.size());
         _result_hash = fn_sha1(rst);
@@ -332,35 +364,40 @@ std::string FLBW::flbw_decrypt(std::string data, std::string password)
     std::string key_a;
     std::string rst = "";
     _time_start = clock();
+    int i, key;
+    std::string bf_str, password_bf;
 
     if (data.length())
     {
+        password = (_bruteforce_protection) ? flbw_hash_challenge(password) : password;
         password = flbw_hash(password);
         t_de_de_de atod = ascii_to_10(password);
         std::string aotd_pass = fn_sha256(std::to_string(atod.i_t));
         std::vector<unsigned char> str_b = base64.base64_decode(data);
+        std::vector<unsigned char> bf_str_b;
         std::string str;
         str = xor_decrypt(str_b, password);
         std::size_t found = str.find(";");
+        std::string right;
+
         if (found != std::string::npos)
         {
             std::vector<std::string> sst = explode(';', str);
             if (sst.size() >= 2 && is_number(sst[0]))
             {
-                int key = std::stoi(sst[0]);
-                std::string right = "";
+                key = std::stoi(sst[0]);
+                right = "";
                 if (sst.size() > 2)
-                    for (int i = 1; i < sst.size(); i++)
-                        if (sst.size() - 1 == i)
-                            right += sst[i];
-                        else
-                            right += sst[i] + ';';
+                    for (i = 1; i < sst.size(); i++)
+                        right += (sst.size() - 1 == i) ? sst[i] : sst[i] + ';';
                 else
                     right = sst[1];
                 key_a = generate_array(key);
                 if (key_a.length())
                 {
                     rst = crypt_word_inv(right, key_a, key);
+                    if (rst[rst.length() - 1] == ' ')
+                        rst = rst.substr(0, rst.length() - 1);
                     _result_hash = fn_sha1(rst);
                 }
                 else

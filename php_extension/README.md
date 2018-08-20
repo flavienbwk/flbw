@@ -4,7 +4,7 @@ FLBW is a dynamic and lightweight C++ encryption algorithm allowing you to encry
 
 The PHP extension allows to benefit the speed of C/C++ with the latitud of PHP.
 
-Actual version : _(cpp)_ __0.5__  
+Actual version : _(cpp)_ __0.6__  
 :warning: PHP **7.0** or greater is required.
 
 -----
@@ -35,14 +35,16 @@ sudo make install
 The FLBW PHP extension provide 2 functions : encryption and decryption of string.
 
 ```php
-$encrypted_string = flbw_encrypt("My super-secure string.", "my_perfect_password");
+$encrypted_string = flbw_encrypt("My super-secure string.", "my_perfect_password", bruteforce_difficulty);
 ```
 
 ```php
-$decrypted_string = flbw_decrypt("SSdtIHNlY3JldA==", "my_perfect_password");
+$decrypted_string = flbw_decrypt("SSdtIHNlY3JldA==", "my_perfect_password", bruteforce_difficulty);
 ```
 
-:information_source: If ever an error occurs, or the password to decrypt is incorrect, `false` will be returned.
+:information_source: `difficulty` is the bruteforce protection difficulty, set it `0` to disable it. A normal value might be `250000`, corresponding to ~1 second (but this highly depends on your computer configuration).
+
+:information_source: If you've provided a wrong password or an error occured, `false` will be returned.
 
 # Uninstallation
 

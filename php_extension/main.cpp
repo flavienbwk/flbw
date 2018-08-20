@@ -11,9 +11,20 @@ Php::Value flbw_encode(Php::Parameters &params)
     FLBW flbw;
     std::string data = params[0];
     std::string password = params[1];
-    std::string rst = flbw.flbw_encrypt(data, password);
+    std::string rst;
+    int bruteforce_difficulty;
+
+    bruteforce_difficulty = (params[2] != -1) ? std::stoi(params[2]) : 0;
+    if (bruteforce_difficulty)
+    {
+        flbw.set_bruteforce_protection(true);
+        flbw.set_bruteforce_difficulty(bruteforce_difficulty);
+    }
+    else
+        flbw.set_bruteforce_protection(false);
+    rst = flbw.flbw_encrypt(data, password);
     if (rst.length())
-        return ((Php::Value)rst);
+        return (rst);
     else
         return (false);
 }
@@ -28,7 +39,18 @@ Php::Value flbw_decode(Php::Parameters &params)
     FLBW flbw;
     std::string data = params[0];
     std::string password = params[1];
-    std::string rst = flbw.flbw_decrypt(data, password);
+    std::string rst;
+    int bruteforce_difficulty;
+
+    bruteforce_difficulty = (params[2] != -1) ? std::stoi(params[2]) : 0;
+    if (bruteforce_difficulty)
+    {
+        flbw.set_bruteforce_protection(true);
+        flbw.set_bruteforce_difficulty(bruteforce_difficulty);
+    }
+    else
+        flbw.set_bruteforce_protection(false);
+    rst = flbw.flbw_decrypt(data, password);
     if (rst.length())
         return (rst);
     else
@@ -42,10 +64,12 @@ extern "C"
         static Php::Extension extension("flbw", "1.0");
 
         extension.add<flbw_encode>("flbw_encode", {Php::ByVal("data", Php::Type::String),
-                                                   Php::ByVal("password", Php::Type::String)});
+                                                   Php::ByVal("password", Php::Type::String),
+                                                   Php::ByVal("bruteforce_protection", Php::Type::Numeric)});
 
         extension.add<flbw_decode>("flbw_decode", {Php::ByVal("data", Php::Type::String),
-                                                   Php::ByVal("password", Php::Type::String)});
+                                                   Php::ByVal("password", Php::Type::String),
+                                                   Php::ByVal("bruteforce_protection", Php::Type::Numeric)});
 
         return extension.module();
     }
