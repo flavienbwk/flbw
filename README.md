@@ -2,7 +2,7 @@
 
 FLBW is a dynamic and lightweight C++ encryption algorithm allowing you to encrypt a string with or without a password.
 
-By dynamic, it means able to return a different string each time the same plain string is submitted.
+This algorithm generates a different string each time the same plain string is submitted, even with the same password.
 
 Actual version : _(cpp)_ __0.5__
 
@@ -46,19 +46,19 @@ flbw decbyf passwordfile.txt encryptedfile.txt [decrypted_destination.txt] # Las
 ## Tests
 
 
-Test of integrity & benchmark (TIB) :
+:white_check_mark: Test of integrity & benchmark (TIB) :
 ```bash
 make tib 
 ./tib
 ```
 
-Test of random attack (RA) :
+:white_check_mark: Test of random attack (RA) :
 ```bash
 make tra
 ./tra
 ```
 
-Test of files integrity (FI) :
+:white_check_mark: Test of files integrity (FI) :
 ```bash
 make tfi
 ./tfi
