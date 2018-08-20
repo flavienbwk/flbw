@@ -6,13 +6,13 @@ void show_help()
 {
     printf("FLBW encryption algorithm usage :\n\n");
     printf("> For encryption :\n");
-    printf("%s\n", "flbw enc password string");
-    printf("%s\n", "flbw encf password file.txt [encrypted_destination.txt]");
-    printf("%s\n\n", "flbw encbyf passwordfile.txt file.txt [encrypted_destination.txt]");
+    printf("%s\n", "flbw enc[bp] password string");
+    printf("%s\n", "flbw encf[bp] password file.txt [encrypted_destination.txt]");
+    printf("%s\n\n", "flbw encbyf[bp] passwordfile.txt file.txt [encrypted_destination.txt]");
     printf("> For decryption :\n");
-    printf("%s\n", "flbw dec password encryptedstring");
-    printf("%s\n", "flbw decf password encryptedfile.txt [decrypted_destination.txt]");
-    printf("%s\n", "flbw decbyf passwordfile.txt encryptedfile.txt [decrypted_destination.txt]");
+    printf("%s\n", "flbw dec[bp] password encryptedstring");
+    printf("%s\n", "flbw decf[bp] password encryptedfile.txt [decrypted_destination.txt]");
+    printf("%s\n", "flbw decbyf[bp] passwordfile.txt encryptedfile.txt [decrypted_destination.txt]");
     return;
 }
 
@@ -23,7 +23,20 @@ int main(int argc, char **argv)
         FLBW flbw;
         std::string data = argv[3];
         std::string password = argv[2];
-        if (strcmp(argv[1], "enc") == 0)
+        std::string choice_o = std::string(argv[1]);
+        std::string choice;
+
+        if (choice_o.length() > 2 && choice_o.substr(choice_o.length() - 2, choice_o.length() - 1).compare("bp") == 0)
+        {
+            choice = choice_o.substr(0, choice_o.length() - 2);
+            flbw.set_bruteforce_protection(true);
+        }
+        else
+        {
+            choice = choice_o;
+            flbw.set_bruteforce_protection(false);
+        }
+        if (strcmp(choice.c_str(), "enc") == 0)
         {
             // Encrypt a string by string.
             std::string rst = flbw.flbw_encrypt(data, password);
@@ -32,7 +45,7 @@ int main(int argc, char **argv)
                 std::cout << flbw.get_message() << std::endl;
             return (0);
         }
-        else if (strcmp(argv[1], "dec") == 0)
+        else if (strcmp(choice.c_str(), "dec") == 0)
         {
             // Decrypt a string by string.
             std::string rst = flbw.flbw_decrypt(data, password);
@@ -41,13 +54,13 @@ int main(int argc, char **argv)
                 std::cout << flbw.get_message() << std::endl;
             return (0);
         }
-        else if (strcmp(argv[1], "encf") == 0 || strcmp(argv[1], "decf") == 0 || strcmp(argv[1], "encbyf") == 0 || strcmp(argv[1], "decbyf") == 0)
+        else if (strcmp(choice.c_str(), "encf") == 0 || strcmp(choice.c_str(), "decf") == 0 || strcmp(choice.c_str(), "encbyf") == 0 || strcmp(choice.c_str(), "decbyf") == 0)
         {
             // Encrypt a given file by string or a given file.
             std::ifstream infile{data};
             std::string file_contents{std::istreambuf_iterator<char>(infile), std::istreambuf_iterator<char>()};
 
-            if (strcmp(argv[1], "encbyf") == 0 || strcmp(argv[1], "decbyf") == 0)
+            if (strcmp(choice.c_str(), "encbyf") == 0 || strcmp(choice.c_str(), "decbyf") == 0)
             {
                 std::ifstream file_contents_pwd(argv[2], std::ios::in | std::ios::binary | std::ios::ate);
                 if (file_contents_pwd.is_open())
@@ -70,7 +83,7 @@ int main(int argc, char **argv)
             if (file_contents.length())
             {
                 std::string rst;
-                if (strcmp(argv[1], "encf") == 0 || strcmp(argv[1], "encbyf") == 0)
+                if (strcmp(choice.c_str(), "encf") == 0 || strcmp(choice.c_str(), "encbyf") == 0)
                     rst = flbw.flbw_encrypt(file_contents, password);
                 else
                     rst = flbw.flbw_decrypt(file_contents, password);

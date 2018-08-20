@@ -4,6 +4,32 @@ You can compile and run thoses test files by running `make test` from the root p
 
 :information_source: **Tip for benchmarking** : the `time` linux command displays the execution time of a command. Example: `time flbw enc password mytext`.
 
+## Tests
+
+:white_check_mark: Test of integrity & benchmark (TIB) :
+```bash
+make tib 
+./tib
+```
+
+:white_check_mark: Test of integrity & benchmark with bruteforce protection (TIBP) :
+```bash
+make tibp
+./tibp
+```
+
+:white_check_mark: Test of random attack (RA) :
+```bash
+make tra
+./tra
+```
+
+:white_check_mark: Test of files integrity (FI) :
+```bash
+make tfi
+./tfi
+```
+
 ## Text generator
 
 You will fin a text generator under `./text_generator` for you to generate a bunch of data.

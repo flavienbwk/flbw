@@ -1,3 +1,7 @@
+/*
+ * FLBW encryption algorithm. Integrity Benchmark Test Program :
+ */
+
 #include <fstream>
 #include <vector>
 #include <cerrno>
@@ -26,7 +30,7 @@ int main(int argc, char **argv)
     clock_t time_start, time_end;
     int nb_strings_generated = 500;
     int strings_max_length = 32768;
-    int passwords_max_length = 8192;
+    int passwords_max_length = 4096;
 
     FLBW flbw;
     int random, integrity_ok, integrity_ko;

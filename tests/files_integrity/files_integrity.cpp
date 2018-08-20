@@ -78,7 +78,7 @@ int main(int argc, char **argv)
     clock_t time_start, time_end;
     time_start = clock();
 
-    DIR *dr = opendir("./tests/files_integrity/files");
+    DIR *dr = opendir("./files_integrity/files");
     if (dr == NULL)
     {
         printf("Could not open current directory.\n");
@@ -91,7 +91,7 @@ int main(int argc, char **argv)
         if (file.compare(".") != 0 && file.compare("..") != 0)
         {
             i++;
-            file_path = "./tests/files_integrity/files/" + file;
+            file_path = "./files_integrity/files/" + file;
             str = readFile(file_path.c_str());
             if (str.length())
             {

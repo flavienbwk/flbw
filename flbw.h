@@ -43,6 +43,8 @@ private:
   clock_t _time_start, _time_end;
   int _base_size;
   int _error;
+  int _bruteforce_difficulty;
+  bool _bruteforce_protection;
 
   std::string strtr(std::string &source, std::string &toReplace, std::string &replaceWith);
   std::string str_rot(std::string str, int number);
@@ -51,6 +53,7 @@ private:
   bool is_number(const std::string &s);
 
   std::string flbw_hash(std::string password);
+  std::string flbw_hash_challenge(std::string password);
   t_de_de_de ascii_to_10(std::string str);
   std::string generate_array(int key);
   std::string crypt_word(std::string mot, std::string key_arr);
@@ -65,11 +68,15 @@ public:
   int get_error();
   std::string get_message();
   std::string get_version();
+  bool get_bruteforce_protection();
+  int get_bruteforce_difficulty();
+  float get_execution_time();
+  std::string get_result_hash();
+  void set_bruteforce_protection(bool activated);
+  void set_bruteforce_difficulty(int value);
   std::string fn_sha1(std::string str);
   std::string fn_sha256(std::string str);
   std::string fn_sha512(std::string str);
-  float get_execution_time(void);
-  std::string get_result_hash(void);
   std::string flbw_encrypt(std::string data, std::string password);
   std::string flbw_decrypt(std::string data, std::string password);
 };
