@@ -2,10 +2,10 @@
 
 FLBW is a dynamic and lightweight C++ encryption algorithm allowing you to encrypt a string with or without a password.
 
-This algorithm generates a different string each time the same plain string is submitted, even with the same password.
+This algorithm generates a different string each time the same plain string is submitted, even with the same password.  
 It also provides a customisable difficulty bruteforce protection.
 
-Actual version : _(cpp)_ __0.6__
+Actual version : _(cpp)_ __0.7__
 
 ## Installation
 
@@ -32,17 +32,17 @@ You have two ways of using the FLBW algorithm :
 
 ```bash
 > For encryption :
-flbw enc[bp] password string # Add "bp" if you want to enable "bruteforce protection".
-flbw encf[bp] password file.txt [encrypted_destination.txt] # Last parameter is optional, the result will be printed if not specified.
-flbw encbyf[bp] passwordfile.txt file.txt [encrypted_destination.txt] # Last parameter is optional, the result will be printed if not specified.
+flbw enc[bp 234567] password string # Add "bp" if you want to enable "bruteforce protection".
+flbw encf[bp 234567] password file.txt [encrypted_destination.txt] # Last parameter is optional, the result will be printed if not specified.
+flbw encbyf[bp 234567] passwordfile.txt file.txt [encrypted_destination.txt] # Last parameter is optional, the result will be printed if not specified.
 
 > For decryption :
-flbw dec[bp] password encryptedstring
-flbw decf[bp] password encryptedfile.txt [decrypted_destination.txt] # Last parameter is optional, the result will be printed if not specified.
-flbw decbyf[bp] passwordfile.txt encryptedfile.txt [decrypted_destination.txt] # Last parameter is optional, the result will be printed if not specified.
+flbw dec[bp 234567] password encryptedstring
+flbw decf[bp 234567] password encryptedfile.txt [decrypted_destination.txt] # Last parameter is optional, the result will be printed if not specified.
+flbw decbyf[bp 234567] passwordfile.txt encryptedfile.txt [decrypted_destination.txt] # Last parameter is optional, the result will be printed if not specified.
 ```
 
-:information_source: To test and benchmark FLBW on your machine, you can use the following command to generate a Lorem Ipsum text file : `./text_generator > myfile.txt`, in combination with the `./flbw 4 [...]` command.
+The `[bp 234567]` sequence is optional. It is used to enable bruteforce protection to a difficulty of `234567`. You can modify it at your will.
 
 ## Bruteforce protection
 
@@ -57,7 +57,7 @@ You can modify it to increase your bruteforce protection in [`flbw.cpp`, line 10
 
 Instructions for tests are in the [`tests`](./tests) directory.
 
-### Encryption mechanism
+## Encryption mechanism
 
 See the following schematics to understand how FLBW roughly work.
 

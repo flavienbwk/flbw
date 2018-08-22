@@ -5,9 +5,9 @@ FLBW::FLBW(void)
     reset();
     _base_array = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ;";
     _base_size = _base_array.length();
-    _version = "0.6";
+    _version = "0.7";
     _bruteforce_protection = false;  // Will increase computing time both for enc. and dec.
-    _bruteforce_difficulty = 234567; // Put your custom number here to secure your encryption.
+    _bruteforce_difficulty = 250000; // Put your custom number here to secure your encryption.
 }
 
 /*
