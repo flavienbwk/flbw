@@ -32,22 +32,20 @@ You have two ways of using the FLBW algorithm :
 
 ```bash
 > For encryption :
-flbw enc[bp 234567] password string # Add "bp" if you want to enable "bruteforce protection".
-flbw encf[bp 234567] password file.txt [encrypted_destination.txt] # Last parameter is optional, the result will be printed if not specified.
-flbw encbyf[bp 234567] passwordfile.txt file.txt [encrypted_destination.txt] # Last parameter is optional, the result will be printed if not specified.
+flbw enc[bp 250000] password string # Add "bp" if you want to enable "bruteforce protection".
+flbw encf[bp 250000] password file.txt [encrypted_destination.txt] # Last parameter is optional, the result will be printed if not specified.
+flbw encbyf[bp 250000] passwordfile.txt file.txt [encrypted_destination.txt] # Last parameter is optional, the result will be printed if not specified.
 
 > For decryption :
-flbw dec[bp 234567] password encryptedstring
-flbw decf[bp 234567] password encryptedfile.txt [decrypted_destination.txt] # Last parameter is optional, the result will be printed if not specified.
-flbw decbyf[bp 234567] passwordfile.txt encryptedfile.txt [decrypted_destination.txt] # Last parameter is optional, the result will be printed if not specified.
+flbw dec[bp 250000] password encryptedstring
+flbw decf[bp 250000] password encryptedfile.txt [decrypted_destination.txt] # Last parameter is optional, the result will be printed if not specified.
+flbw decbyf[bp 250000] passwordfile.txt encryptedfile.txt [decrypted_destination.txt] # Last parameter is optional, the result will be printed if not specified.
 ```
 
-The `[bp 234567]` sequence is optional. It is used to enable bruteforce protection to a difficulty of `234567`. You can modify it at your will.
+The `[bp 250000]` sequence is optional. It is used to enable bruteforce protection to a difficulty of `250000`.  
+You can modify it at your will, `250000` is just a reference.
 
 ## Bruteforce protection
-
-By default, the bruteforce protection key and difficulty is `234567`.
-You can modify it to increase your bruteforce protection in [`flbw.cpp`, line 10](flbw.cpp#L10).
 
 :warning: Enabling bruteforce protection greatly increases the security of your encryption but also greatly increases the encryption/decryption time.
 
