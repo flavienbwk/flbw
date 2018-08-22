@@ -28,18 +28,22 @@ int main(int argc, char **argv)
     if (argc >= 4)
     {
         FLBW flbw;
-        std::string data = argv[3];
         std::string password = argv[2];
+        std::string data = argv[3];
         std::string choice_o = std::string(argv[1]);
         std::string choice;
+        int adv = 0;
 
         // Bruteforce protection use.
         if (choice_o.length() > 2 && choice_o.substr(choice_o.length() - 2, choice_o.length() - 1).compare("bp") == 0)
         {
-            choice = choice_o.substr(0, choice_o.length() - 2);
-            flbw.set_bruteforce_protection(true);
             if (argc >= 5)
             {
+                adv++;
+                password = argv[3];
+                data = argv[4];
+                choice = choice_o.substr(0, choice_o.length() - 2);
+                flbw.set_bruteforce_protection(true);
                 if (is_number(argv[2]) && std::stoi(argv[2]) >= 0)
                     flbw.set_bruteforce_difficulty(std::stoi(argv[2]));
                 else
@@ -51,7 +55,7 @@ int main(int argc, char **argv)
             }
             else
             {
-                printf("%sBruteforce protection difficulty not specified.%s\n\n", C_RED, C_RESET);
+                printf("%sMissing parameter (file difficulty or password).%s\n\n", C_RED, C_RESET);
                 show_help();
                 return (1);
             }
@@ -86,7 +90,7 @@ int main(int argc, char **argv)
 
             if (strcmp(choice.c_str(), "encbyf") == 0 || strcmp(choice.c_str(), "decbyf") == 0)
             {
-                std::ifstream file_contents_pwd(argv[2], std::ios::in | std::ios::binary | std::ios::ate);
+                std::ifstream file_contents_pwd(argv[2 + adv], std::ios::in | std::ios::binary | std::ios::ate);
                 if (file_contents_pwd.is_open())
                 {
                     file_contents_pwd.seekg(0, std::ios::end);
@@ -111,9 +115,9 @@ int main(int argc, char **argv)
                     rst = flbw.flbw_encrypt(file_contents, password);
                 else
                     rst = flbw.flbw_decrypt(file_contents, password);
-                if (argc >= 5 && rst.length())
+                if (argc >= 5 + adv && rst.length())
                 {
-                    FILE *fp = fopen(argv[4], "w");
+                    FILE *fp = fopen(argv[4 + adv], "w");
                     if (fp == NULL)
                     {
                         if (errno == EACCES)
@@ -127,7 +131,7 @@ int main(int argc, char **argv)
                     {
                         fclose(fp);
                         std::ofstream file;
-                        file.open(argv[4]);
+                        file.open(argv[4 + adv]);
                         file << rst;
                         file.close();
                     }
@@ -135,7 +139,7 @@ int main(int argc, char **argv)
                 else
                     std::cout << rst << std::endl;
                 if (flbw.get_error())
-                    std::cout << flbw.get_message() << std::endl;
+                    std::cout << flbw.get_message();
                 return (0);
             }
             else
@@ -143,7 +147,7 @@ int main(int argc, char **argv)
         }
         else
         {
-            printf("%sInvalid mode selected (%s).%s\n\n", C_RED, argv[1], C_RESET);
+            printf("%sInvalid mode selected (%s).%s\n\n", C_RED, argv[1 + adv], C_RESET);
             show_help();
         }
     }
