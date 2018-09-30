@@ -40,6 +40,7 @@ OBJECTS				=	$(SOURCES:%.cpp=%.o)
 all:					make_libs ${OBJECTS} ${EXTENSION}
 
 make_libs:				
+						make -C ./PHP-CPP
 						make -C ./PHP-CPP install
 						make -C ./flbw_lib all
 
