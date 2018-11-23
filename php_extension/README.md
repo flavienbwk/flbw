@@ -35,11 +35,11 @@ sudo make install
 The FLBW PHP extension provide 2 functions : encryption and decryption of string.
 
 ```php
-$encrypted_string = flbw_encrypt("My super-secure string.", "my_perfect_password", bruteforce_difficulty);
+$encrypted_string = flbw_encode("My super-secure string.", "my_perfect_password", bruteforce_difficulty);
 ```
 
 ```php
-$decrypted_string = flbw_decrypt("SSdtIHNlY3JldA==", "my_perfect_password", bruteforce_difficulty);
+$decrypted_string = flbw_decode("SSdtIHNlY3JldA==", "my_perfect_password", bruteforce_difficulty);
 ```
 
 :information_source: `difficulty` is the bruteforce protection difficulty, set it `0` to disable it. A normal value might be `250000`, corresponding to ~1 second (but this highly depends on your computer configuration).
