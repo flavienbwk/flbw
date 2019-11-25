@@ -5,7 +5,7 @@ FLBW is a dynamic and lightweight C++ encryption algorithm allowing you to encry
 This algorithm generates a different string each time the same plain string is submitted, even with the same password.  
 It also provides a customisable difficulty bruteforce protection.
 
-Actual version : _(cpp)_ __0.7.1__
+Current version : _(cpp)_ __0.7.1__
 
 ## Installation
 
